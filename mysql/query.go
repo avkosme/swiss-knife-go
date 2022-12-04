@@ -30,6 +30,7 @@ func FindIn(db *sql.DB, q string, err error, args ...any) (result []map[string]a
 	}()
 	rows, err := db.Query(
 		q,
+		args...,
 	)
 
 	erl("", err)
