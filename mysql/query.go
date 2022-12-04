@@ -17,6 +17,44 @@ type Creater interface {
 	Create(db *sql.DB, q string, err error, args ...any)
 }
 
+// FindIn
+// var in string
+// query := fmt.Sprintf("SELECT id,name from user WHERE phone IN (%s)", in)
+func FindIn(db *sql.DB, q string, err error, args ...any) (result []map[string]any) {
+	defer func() {
+		if r := recover(); r != nil {
+			erl("", err)
+			defer sentry.Flush(2 * time.Second)
+			sentry.CaptureException(err)
+		}
+	}()
+	rows, err := db.Query(
+		q,
+	)
+
+	erl("", err)
+
+	defer rows.Close()
+
+	columns, err := rows.Columns()
+	erl("", err)
+	row := make([][]byte, len(columns))
+	rowPtr := make([]any, len(columns))
+	for i := range row {
+		rowPtr[i] = &row[i]
+	}
+
+	for rows.Next() {
+		_ = rows.Scan(rowPtr...)
+		rd := map[string]any{}
+		for k, v := range row {
+			rd[columns[k]] = string(v)
+		}
+		result = append(result, rd)
+	}
+	return
+}
+
 // Create
 func Create(db *sql.DB, q string, err error, args ...any) {
 	defer func() {
