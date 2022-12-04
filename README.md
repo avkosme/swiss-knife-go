@@ -23,7 +23,8 @@ db := mysql.NewMysql(
 )
 db.Connect()
 
-userList := user.FindByQuery(rep.Db, gift.SqlQuery.String, limit, offset)    
+// []map[string]any []map[<feild name>]<value>
+result := mysql.FindIn(db.Db, query, err)
 ```
 
 ## Contributing
