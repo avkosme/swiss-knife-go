@@ -1,5 +1,19 @@
 # The Swiss knife for your golang app
 
+## Install
+
+Stable version
+
+```
+$ go get github.com/avkosme/swiss-knife-go
+```
+
+Develop version
+
+```
+$ go get github.com/avkosme/swiss-knife-go@dev
+```
+
 ## Usage
 
 ### Mysql
