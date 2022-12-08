@@ -6,9 +6,11 @@
 
 ```go
 import (
-    "example/internal/config"
-    "github.com/avkosme/swiss-knife-go/mysql"
+    "log"
 
+    "example/internal/config"
+    
+    "github.com/avkosme/swiss-knife-go/mysql"
     "github.com/getsentry/sentry-go"
 )
 
@@ -25,6 +27,15 @@ db.Connect()
 
 // []map[string]any []map[<feild name>]<value>
 result := mysql.FindIn(db.Db, query, err)
+
+// erl
+func erl(mes string, err error) {
+	if err != nil {
+		defer sentry.Flush(2 * time.Second)
+		sentry.CaptureException(err)
+		log.Printf("%q %q", mes, err)
+	}
+}
 ```
 
 ## Contributing
